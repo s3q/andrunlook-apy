@@ -6,12 +6,38 @@ import andr
 import timeago
 import datetime
 from time import sleep
+from termcolor import colored
+
+
+
+os.system('color')
+
+logo = colored("""
+
+ ▄▄▄·  ▐ ▄ ·▄▄▄▄  ▄▄▄  ▄• ▄▌ ▐ ▄ ▄▄▌              ▄ •▄ 
+▐█ ▀█ •█▌▐███▪ ██ ▀▄ █·█▪██▌•█▌▐███•  ▪     ▪     █▌▄▌▪
+▄█▀▀█ ▐█▐▐▌▐█· ▐█▌▐▀▀▄ █▌▐█▌▐█▐▐▌██▪   ▄█▀▄  ▄█▀▄ ▐▀▀▄·
+▐█ ▪▐▌██▐█▌██. ██ ▐█•█▌▐█▄█▌██▐█▌▐█▌▐▌▐█▌.▐▌▐█▌.▐▌▐█.█▌
+ ▀  ▀ ▀▀ █▪▀▀▀▀▀• .▀  ▀ ▀▀▀ ▀▀ █▪.▀▀▀  ▀█▄▀▪ ▀█▄▀▪·▀  ▀
+                                                       
+""", "red") + colored("""
+   > ******
+     Github: s3q
+     Instagram: s3qix
+""", "yellow") + """
+Wait ...
+
+"""
+
+
+print(logo)
 
 api = andr.api()
 
 adb_dir = andr.set_adb_dir()
 
 aid = andr.get_aid()
+
 
 
 def options():
@@ -108,7 +134,7 @@ def options():
             pin["name"] = o3
             break
 
-        o2 = input("[-] - type numbers with , for each it : \n─── ").strip()
+        o2 = input("[-] - type the possible numbers in the pin split by , comma : \n─── ").strip()
         if o2:
             pin["embedded_numbers"] = list(map(int, o2.split(",")))
 
@@ -119,6 +145,7 @@ def options():
 
 def exe(epin, pin_length, embedded_numbers=[]):
     pin_str = str(epin).zfill(pin_length)
+    print("[+] try - ", pin_str)
 
     includes_embedded_numbers = False
     if embedded_numbers:
@@ -165,15 +192,6 @@ def main():
         i = 0
 
         if pin["pin_range"]:
-            #     plu = pin["pin_length"]
-            #     for i in range(1, 5):
-            #         for pl in range(4, pin["pin_length"]+1):
-            #             if not plu <= pl:
-            #                 for ip in range(pin["pin_range"][0], pow(10, pl)):
-            #                     if ip > pin["pin_range"][1]:
-            #                         break
-            #                     exe(ip, plu, pin["embedded_numbers"])
-            #         pl -= 1
 
             for pl in range(4, pin["pin_length"]+1):
                 for ip in range(pin["pin_range"][0], pow(10, pl)):
@@ -184,8 +202,6 @@ def main():
         if pin["pin_list"]:
             for p in pin["pin_list"]:
                 result = exe(p, len(str(p)), pin["embedded_numbers"])
-                # print(result)
-                # print(result.stdout.decode().strip(), result.returncode, result.stderr.decode().strip())
                 if result.returncode:
                     print("[!] -", result.stderr.decode().strip())
                     print("[-] - please check if device is connectd and try agin ... >_<")

@@ -7,7 +7,7 @@ import uuid
 class api:
 
     def __init__(self):
-        self.API = "http://localhost:8800/"
+        self.API = "https://tranquil-falls-29758.herokuapp.com/"
 
     def savePublicProgress(self, aid, pin):
         try:
